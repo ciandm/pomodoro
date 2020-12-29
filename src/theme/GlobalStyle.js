@@ -11,7 +11,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    background-color: ${({ theme }) => theme.colors.mirage};
+    background-color: ${({ theme }) => theme.colors['port_gore']};
     font-family: ${({ theme }) => theme.fontFamily};
     min-height: 100vh;
     padding: 48px;
