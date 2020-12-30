@@ -12,7 +12,7 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     background-color: ${({ theme }) => theme.colors['port_gore']};
-    font-family: ${({ theme }) => theme.fontFamily};
+    font-family: ${({ theme }) => theme.userFontChoice};
     min-height: 100vh;
     padding: 48px;
   }

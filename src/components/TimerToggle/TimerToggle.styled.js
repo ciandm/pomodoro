@@ -23,7 +23,7 @@ export const Toggle = styled.div`
   }
 
   ${({ active }) => active && css`
-    background-color: ${({ theme }) => theme.colors[theme.colorChoice]};
+    background-color: ${({ theme }) => theme.colors[theme.userColorChoice]};
     color: ${({ theme }) => theme.colors['mirage']};
     opacity: 1;
   `}

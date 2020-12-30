@@ -9,4 +9,19 @@ export const colors = {
   'mirage': 'hsl(234, 39%, 14%)'
 }
 
+export const colorChoices = [
+  {
+    id: 1,
+    colorName: 'froly'
+  },
+  {
+    id: 2,
+    colorName: 'malibu'
+  },
+  {
+    id: 3,
+    colorName: 'heliotrope'
+  },
+]
+
 export default colors;

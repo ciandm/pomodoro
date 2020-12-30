@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types';
 import * as Styled from './PomodoroContainer.styled';
 
 function PomodoroContainer({ children }) {
@@ -8,6 +9,10 @@ function PomodoroContainer({ children }) {
       {children}
     </Styled.PomodoroContainer>
   )
+}
+
+PomodoroContainer.propTypes = {
+  children: PropTypes.node.isRequired,
 }
 
 export default PomodoroContainer

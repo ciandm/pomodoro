@@ -22,6 +22,7 @@ export const H3 = css`
 `
 
 export const H4 = css`
+  color: ${({ theme }) => theme.colors['mirage']};
   font-weight: 13px;
   font-weight: bold;
   line-height: 16px;
@@ -40,3 +41,18 @@ export const BodySecondary = css`
   font-weight: bold;
   line-height: 14px;
 `
+
+export const fontChoices = [
+  {
+    id: 1,
+    fontName: 'Kumbh Sans'
+  },
+  {
+    id: 2,
+    fontName: 'Roboto Slab'
+  },
+  {
+    id: 3,
+    fontName: 'Space Mono'
+  },
+]

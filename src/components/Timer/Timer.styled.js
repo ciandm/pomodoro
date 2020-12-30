@@ -40,7 +40,7 @@ export const TimerScreen = styled.div`
 `
 
 export const TimerProgress = styled.div`
-  border: 12px solid ${({ theme }) => theme.colors[theme.colorChoice]};
+  border: 12px solid ${({ theme }) => theme.colors[theme.userColorChoice]};
   border-radius: 500px;
   height: 100%;
   position: absolute;
