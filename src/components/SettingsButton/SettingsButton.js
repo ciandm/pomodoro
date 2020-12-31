@@ -10,7 +10,7 @@ function SettingsButton({
   handleSettingsShown
 }) {
   return (
-    <Button onClick={(e) => handleSettingsShown(e)}>
+    <Button onClick={() => handleSettingsShown(true)}>
       <img src={settingsIcon} alt="Setting icon" />
     </Button>
   )

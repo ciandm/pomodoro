@@ -1,16 +1,21 @@
-import React from 'react'
+import React, { useReducer } from 'react'
 import PropTypes from 'prop-types';
 import * as Styled from './SettingsContainer.styled';
 import { ThemeConsumer } from 'styled-components'
 import UppercaseTitle from '../../components/UppercaseTitle/UppercaseTitle';
 import CircularButton from '../../components/CircularButton/CircularButton';
+import Input from '../../components/Input/Input';
 import {
   FaCheck
 } from 'react-icons/fa'
 
 function SettingsContainer({
   settingsShown,
-  handleSettingsShown
+  handleSettingsClose,
+  handleInputIncrementAndDecrement,
+  handleInputChange,
+  handleSettingsSubmit,
+  settings
 }) {
 
   return (
@@ -20,22 +25,45 @@ function SettingsContainer({
           return (
             <Styled.SettingsContainer
               settingsShown={settingsShown}
-              onClick={(e) => handleSettingsShown(e)}
-              data-modal-close="true"
             >
               {/* Header of modal */}
-              <Styled.SettingsModal id="modal">
+              <Styled.SettingsModal>
                 <Styled.SettingsHeader>
                   <Styled.SettingsTitle>Settings</Styled.SettingsTitle>
                   <Styled.SettingsClose
-                    onClick={(e) => handleSettingsShown(e)}
-                    data-modal-close="true"
-                    id="modalClose"
+                    onClick={() => handleSettingsClose('cancel')}
                   />
                 </Styled.SettingsHeader>
                 <Styled.SettingsRows>
-                  <Styled.SettingsRow directionType="column" totallyobscure="true">
-                    <UppercaseTitle title="Time (minutes)" />
+                  <Styled.SettingsRow directionType="column">
+                    <UppercaseTitle
+                      title="Time (minutes)"
+                      marginBottom="20px"
+                    />
+                    <Styled.SettingsGroup>
+                      <Input
+                        id="pomodoro"
+                        type="number"
+                        label="Pomodoro"
+                        value={settings.pomodoro}
+                        handleInputIncrementAndDecrement={handleInputIncrementAndDecrement}
+                        handleInputChange={handleInputChange}
+                      />
+                      <Input
+                        id="shortBreak"
+                        label="Short break"
+                        value={settings.shortBreak}
+                        handleInputIncrementAndDecrement={handleInputIncrementAndDecrement}
+                        handleInputChange={handleInputChange}
+                      />
+                      <Input
+                        id="longBreak"
+                        label="Long break"
+                        value={settings.longBreak}
+                        handleInputIncrementAndDecrement={handleInputIncrementAndDecrement}
+                        handleInputChange={handleInputChange}
+                      />
+                    </Styled.SettingsGroup>
                   </Styled.SettingsRow>
                   <Styled.SettingsRow>
                     <UppercaseTitle title="Font" />
@@ -73,6 +101,9 @@ function SettingsContainer({
                   </Styled.SettingsRow>
                 </Styled.SettingsRows>
               </Styled.SettingsModal>
+              <Styled.ApplyButton
+                onClick={() => handleSettingsSubmit()}
+              >Apply</Styled.ApplyButton>
             </Styled.SettingsContainer>
           )
         }

@@ -1,19 +1,24 @@
 import React from 'react'
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import {
   H4
 } from '../../theme/typography';
 import PropTypes from 'prop-types';
 
 const Title = styled.h4`
-  ${H4}
+  ${H4};
+
+  ${({ marginBottom }) => marginBottom && css`
+    margin-bottom: ${marginBottom};
+  `}
 `
 
 const UppercaseTitle = ({
-  title
+  title,
+  marginBottom
 }) => {
   return (
-    <Title>
+    <Title marginBottom={marginBottom}>
       {title}
     </Title>
   )
@@ -21,6 +26,7 @@ const UppercaseTitle = ({
 
 UppercaseTitle.propTypes = {
   title: PropTypes.string.isRequired,
+  marginBottom: PropTypes.string,
 }
 
 export default UppercaseTitle

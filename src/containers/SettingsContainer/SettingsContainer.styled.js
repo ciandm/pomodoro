@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import {
   H2
 } from '../../theme/typography';
@@ -10,6 +10,7 @@ export const SettingsContainer = styled.div`
   background-color: rgba(10, 12, 28, .5);
   bottom: 0;
   display: ${({ settingsShown }) => settingsShown ? 'flex' : 'none'};
+  flex-direction: column;
   justify-content: center;
   left: 0;
   position: absolute;
@@ -25,6 +26,7 @@ export const SettingsModal = styled.div`
   flex-direction: column;
   width: 100%;
   max-width: 540px;
+  position: relative;
 `
 
 export const SettingsHeader = styled.header`
@@ -38,6 +40,10 @@ export const SettingsHeader = styled.header`
 export const SettingsTitle = styled.h2`
   ${H2}
   color: ${({ theme }) => theme.colors['mirage']};
+
+  ${({ marginBottom }) => marginBottom && css`
+    margin-bottom: marginBottom;
+  `}
 `
 
 export const SettingsClose = styled.button`
@@ -77,9 +83,45 @@ export const SettingsRow = styled.div`
   &:not(:last-child) {
     border-bottom: 1px solid ${({ theme }) => theme.colors['white_lilac']};
   }
+
+  &:last-child {
+    padding-bottom: 36px;
+  }
 `
 
 export const SettingsGroup = styled.div`
   display: flex;
   z-index: 50;
+  max-width: 100%;
+`
+
+export const ApplyButton = styled.button`
+  align-self: center;
+  background-color: ${({ theme }) => theme.colors[theme.userColorChoice]};
+  border: none;
+  border-radius: 50px;
+  color: #FFF;
+  cursor: pointer;
+  margin-top: -28px;
+  outline: none;
+  overflow: hidden;
+  padding: 20px 48px;
+  position: relative;
+  z-index: 1000;
+
+  &::before {
+    background-color: rgba(255, 255, 255, .2);
+    content: '';
+    display: block;
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
 `
