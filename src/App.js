@@ -19,10 +19,9 @@ function App() {
     font: 'Kumbh Sans',
     color: 'froly'
   }
-
-  const [userColorChoice, setUserColorChoice] = useState('froly');
-  const [userFontChoice, setUserFontChoice] = useState('Kumbh Sans');
-  const [settingsShown, setSettingsShown] = useState(true);
+  const [settingsShown, setSettingsShown] = useState(false);
+  const [selectedTimer, setSelectedTimer] = useState('pomodoro');
+  const [timerActive, setTimerActive] = useState(false);
 
   function reducer(state, action) {
     if (action.type === 'increment') {
@@ -55,6 +54,20 @@ function App() {
         return {
           ...initialState
         }
+      }
+    }
+
+    if (action.type === 'font') {
+      return {
+        ...state,
+        font: action.payload.label
+      }
+    }
+
+    if (action.type === 'color') {
+      return {
+        ...state,
+        color: action.payload.label
       }
     }
 
@@ -102,6 +115,27 @@ function App() {
     })
   }
 
+  function handleFontAndColorSelection(type, label) {
+    console.log(label);
+    if (type === 'font') {
+      dispatch({
+        type: 'font',
+        payload: {
+          label
+        }
+      })
+    }
+
+    if (type === 'color') {
+      dispatch({
+        type: 'color',
+        payload: {
+          label
+        }
+      })
+    }
+  }
+
   function handleSettingsClose(type) {
     if (type === 'cancel') {
       dispatch({
@@ -117,20 +151,34 @@ function App() {
     })
   }
 
+  function handleTimerSelect(timer) {
+    setSelectedTimer(timer);
+    setTimerActive(false);
+  }
+
+  function handleTimerActivation() {
+    setTimerActive(prevState => !prevState);
+  }
+
   return (
     <ThemeProvider theme={{
       colors,
-      userFontChoice,
-      userColorChoice,
       colorChoices,
-      fontChoices
+      fontChoices,
+      userFontChoice: settings.font,
+      userColorChoice: settings.color
     }}>
       <GlobalStyle />
       <PomodoroContainer>
-        <TimerToggle />
+        <TimerToggle
+          selectedTimer={selectedTimer}
+          handleTimerSelect={handleTimerSelect}
+        />
         <Timer
-          pomodoro={settings.pomodoro}
-          shortBreak={settings.shortBreak}
+          settings={settings}
+          selectedTimer={selectedTimer}
+          timerActive={timerActive}
+          handleTimerActivation={handleTimerActivation}
         />
         <SettingsButton
           handleSettingsShown={handleSettingsShown}
@@ -142,6 +190,7 @@ function App() {
         handleSettingsClose={handleSettingsClose}
         handleSettingsSubmit={handleSettingsSubmit}
         handleInputIncrementAndDecrement={handleInputIncrementAndDecrement}
+        handleFontAndColorSelection={handleFontAndColorSelection}
         handleInputChange={handleInputChange}
         settings={settings}
       />

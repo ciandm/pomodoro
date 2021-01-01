@@ -15,6 +15,7 @@ function SettingsContainer({
   handleInputIncrementAndDecrement,
   handleInputChange,
   handleSettingsSubmit,
+  handleFontAndColorSelection,
   settings
 }) {
 
@@ -72,9 +73,12 @@ function SettingsContainer({
                         return (
                           <CircularButton
                             key={choice.id}
+                            label={choice.fontName}
+                            type="font"
                             active={theme.userFontChoice === choice.fontName ? true : false}
                             fontButton
                             fontFamily={choice.fontName}
+                            handleFontAndColorSelection={handleFontAndColorSelection}
                           >
                             Aa
                           </CircularButton>
@@ -89,8 +93,11 @@ function SettingsContainer({
                         return (
                           <CircularButton
                             key={choice.id}
+                            label={choice.colorName}
+                            type="color"
                             active={theme.userColorChoice === choice.colorName ? true : false}
                             backgroundColor={theme.colors[choice.colorName]}
+                            handleFontAndColorSelection={handleFontAndColorSelection}
                             colorButton
                           >
                             <FaCheck />

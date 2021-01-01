@@ -1,13 +1,24 @@
 import React from 'react'
 import * as Styled from './TimerToggle.styled';
-import { ThemeConsumer } from 'styled-components'
 
-function TimerToggle() {
+function TimerToggle({
+  selectedTimer,
+  handleTimerSelect
+}) {
   return (
     <Styled.Container>
-      <Styled.Toggle active>pomodoro</Styled.Toggle>
-      <Styled.Toggle>short break</Styled.Toggle>
-      <Styled.Toggle>long break</Styled.Toggle>
+      <Styled.Toggle
+        onClick={() => handleTimerSelect('pomodoro')}
+        active={selectedTimer === 'pomodoro' ? true : false}
+      >Pomodoro</Styled.Toggle>
+      <Styled.Toggle
+        onClick={() => handleTimerSelect('shortBreak')}
+        active={selectedTimer === 'shortBreak' ? true : false}
+      >Short Break</Styled.Toggle>
+      <Styled.Toggle
+        onClick={() => handleTimerSelect('longBreak')}
+        active={selectedTimer === 'longBreak' ? true : false}
+      >Long Break</Styled.Toggle>
     </Styled.Container>
   )
 }
