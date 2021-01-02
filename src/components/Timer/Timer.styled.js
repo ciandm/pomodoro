@@ -12,15 +12,15 @@ const stroke = keyframes`
 
 const strokeFlash = keyframes`
   0% {
-    opacity: 1
+    stroke-opacity: .05
   }
   
   50% {
-    opacity: .3;
+    stroke-opacity: 1;
   }
 
   100% {
-    opacity: 1
+    stroke-opacity: .05
   }
 `
 
@@ -65,7 +65,9 @@ export const TimerProgress = styled.div`
   height: 100%;
   position: absolute;
   width: 100%;
+  transform: rotate(270deg);
   z-index: -1;
+
 
   & svg {
     border-radius: 500px;
@@ -74,35 +76,36 @@ export const TimerProgress = styled.div`
     stroke: ${({ theme }) => theme.colors[theme.userColorChoice]};
     stroke-width: 12px;
     stroke-dasharray: 1005;
-    stroke-dashoffset: 0;
     stroke-linecap: round;
-    transform: rotate(270deg);
-
-    &.countdownAnimation .circle {
-    ${({ animationTime }) => {
-    return css`
-        animation: ${stroke} ${animationTime} linear backwards;
-        `
-  }}
-    }
-
-    &.isAnimating .circle {
-      animation-play-state: running;
-    }
-
-    &.isPaused .circle {
-      animation-play-state: paused;
-    }
-
-    & .circle {
-      z-index: 2;
-    }
 
     & .circle--behind {
       stroke-opacity: .05;
+      stroke-dashoffset: 0;
       z-index: 1;
     }
+
+    &.isFinished .circle--behind {
+      animation-name: ${strokeFlash};
+      animation-duration: 2s;
+      animation-fill-mode: backwards;
+      animation-iteration-count: 2;
+      animation-timing-function: linear;
+    }
   }
+
+  ${({ timerStatus }) => {
+    if (timerStatus.progress === 'finished') {
+      return css`
+        & svg .circle--behind {
+          animation-name: ${strokeFlash};
+          animation-duration: 2s;
+          animation-fill-mode: backwards;
+          animation-iteration-count: 2;
+          animation-timing-function: linear;
+        }
+      `
+    }
+  }}
 `
 
 export const TimerRemaining = styled.h1`

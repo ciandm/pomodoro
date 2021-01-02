@@ -8,6 +8,7 @@ import TimerToggle from './components/TimerToggle/TimerToggle';
 import Timer from './components/Timer/Timer';
 import SettingsButton from './components/SettingsButton/SettingsButton';
 import SettingsContainer from './containers/SettingsContainer/SettingsContainer';
+import useInterval from './hooks/useInterval';
 
 function App() {
 
@@ -26,6 +27,19 @@ function App() {
     progress: 'start',
     isClicked: false
   });
+  const [circleSections, setCircleSections] = useState([]);
+  const [savedCircleSections, setSavedCircleSections] = useState([]);
+
+  const [timeDisplayed, setTimeDisplayed] = useState({
+    minutes: 0,
+    seconds: 0,
+    animationDuration: ''
+  });
+  const [savedTimeDisplayed, setSavedTimeDisplayed] = useState({
+    minutes: 0,
+    seconds: 0,
+  })
+  const [delay, setDelay] = useState('');
 
   function reducer(state, action) {
     if (action.type === 'increment') {
@@ -155,6 +169,89 @@ function App() {
   }
 
   useEffect(() => {
+    const totalSeconds = settings[selectedTimer] * 60;
+    const minutes = totalSeconds / 60;
+    let seconds = totalSeconds % 60;
+    setTimeDisplayed({
+      minutes: minutes,
+      seconds: seconds,
+      animationDuration: `${totalSeconds}s`
+    });
+    setSavedTimeDisplayed({
+      minutes,
+      seconds
+    })
+    setCircleSections([]);
+    for (let i = 0; i <= minutes; i++) {
+      setCircleSections(prevCircleSections => ([
+        ...prevCircleSections,
+        {
+          id: i,
+          rotateDeg: calculateRotation(i, minutes),
+          dashOffset: calculateDashOffset(minutes)
+        }
+      ]))
+    }
+    setDelay('1000');
+  }, [selectedTimer, settings]);
+
+
+  function calculateRotation(index, count) {
+    let sectionRotation = (360 / count);
+    return `${sectionRotation * index}deg`
+  }
+
+  function calculateDashOffset(count) {
+    let circleLength = Math.floor((Math.PI * 160) * 2);
+    let offsetAmount = circleLength / count;
+    return circleLength - offsetAmount;
+  }
+
+  useInterval(() => {
+    const { minutes, seconds } = timeDisplayed;
+    if (seconds > 0) {
+      setTimeDisplayed(prevState => ({
+        ...prevState,
+        seconds: seconds - 1
+      }))
+    }
+
+    if (seconds === 0) {
+      if (minutes === 0) {
+        setDelay(null);
+        handleTimerFinish();
+        setCircleSections([]);
+      } else {
+        setTimeDisplayed(prevState => ({
+          ...prevState,
+          minutes: minutes - 1,
+          seconds: 59
+        }))
+        const updatedCircleSections = circleSections.slice(0, -1);
+        setCircleSections([...updatedCircleSections]);
+      }
+    }
+  }, timerStatus.progress === 'playing' ? delay : null);
+
+  function timerClickHandler(timer) {
+    // get the current timer being clicked
+    handleTimerActivation(timer);
+    if (timerStatus.progress === 'finished') {
+      handleTimerRestart();
+    }
+  }
+
+  function handleTimerRestart() {
+    setTimeDisplayed(prevState => ({
+      ...prevState,
+      minutes: savedTimeDisplayed.minutes,
+      seconds: savedTimeDisplayed.seconds
+    }))
+    setCircleSections(savedCircleSections);
+    setDelay('1000');
+  }
+
+  useEffect(() => {
     setTimerStatus({
       timer: selectedTimer,
       progress: 'start',
@@ -172,18 +269,12 @@ function App() {
     });
   }
 
-  function handleTimerFinish() {
-    setTimerStatus(prevStatus => ({
-      ...prevStatus,
-      progress: 'finished'
-    }))
-  }
-
   function handleTimerActivation(timer) {
     let progress;
     switch (timerStatus.progress) {
       case 'start':
         progress = 'playing'
+        setSavedCircleSections(circleSections);
         break;
       case 'playing':
         progress = 'paused'
@@ -202,6 +293,13 @@ function App() {
       progress,
       isClicked: true
     });
+  }
+
+  function handleTimerFinish() {
+    setTimerStatus(prevStatus => ({
+      ...prevStatus,
+      progress: 'finished'
+    }))
   }
 
   return (
@@ -224,6 +322,11 @@ function App() {
           timerStatus={timerStatus}
           handleTimerActivation={handleTimerActivation}
           handleTimerFinish={handleTimerFinish}
+          circleSections={circleSections}
+          timeDisplayed={timeDisplayed}
+          delay={delay}
+          savedTimeDisplayed={savedTimeDisplayed}
+          timerClickHandler={timerClickHandler}
         />
         <SettingsButton
           handleSettingsShown={handleSettingsShown}

@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types';
 import * as Styled from './SettingsContainer.styled';
 import { ThemeConsumer } from 'styled-components'
@@ -14,10 +14,21 @@ function SettingsContainer({
   handleSettingsClose,
   handleInputIncrementAndDecrement,
   handleInputChange,
-  handleSettingsSubmit,
   handleFontAndColorSelection,
+  handleSettingsSubmit,
   settings
 }) {
+
+  const [settingsSubmitted, setSettingsSubmitted] = useState(false);
+
+  function handleSubmitButtonClick() {
+    if (settingsSubmitted) return;
+    handleSettingsSubmit();
+    setSettingsSubmitted(true);
+    setTimeout(() => {
+      setSettingsSubmitted(false);
+    }, 1000)
+  }
 
   return (
     <ThemeConsumer>
@@ -27,7 +38,6 @@ function SettingsContainer({
             <Styled.SettingsContainer
               settingsShown={settingsShown}
             >
-              {/* Header of modal */}
               <Styled.SettingsModal>
                 <Styled.SettingsHeader>
                   <Styled.SettingsTitle>Settings</Styled.SettingsTitle>
@@ -109,8 +119,8 @@ function SettingsContainer({
                 </Styled.SettingsRows>
               </Styled.SettingsModal>
               <Styled.ApplyButton
-                onClick={() => handleSettingsSubmit()}
-              >Apply</Styled.ApplyButton>
+                onClick={() => handleSubmitButtonClick()}
+              >{settingsSubmitted ? 'Applied' : 'Apply'}</Styled.ApplyButton>
             </Styled.SettingsContainer>
           )
         }
