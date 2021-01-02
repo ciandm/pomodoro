@@ -1,8 +1,28 @@
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import {
   H1,
   H3
 } from '../../theme/typography';
+
+const stroke = keyframes`
+  to {
+    stroke-dashoffset: 1005
+  }
+`
+
+const strokeFlash = keyframes`
+  0% {
+    opacity: 1
+  }
+  
+  50% {
+    opacity: .3;
+  }
+
+  100% {
+    opacity: 1
+  }
+`
 
 export const TimerContainer = styled.div`
   align-items: center;
@@ -40,12 +60,49 @@ export const TimerScreen = styled.div`
 `
 
 export const TimerProgress = styled.div`
-  border: 12px solid ${({ theme }) => theme.colors[theme.userColorChoice]};
+  /* border: 12px solid ${({ theme }) => theme.colors[theme.userColorChoice]}; */
   border-radius: 500px;
   height: 100%;
   position: absolute;
   width: 100%;
   z-index: -1;
+
+  & svg {
+    border-radius: 500px;
+    fill-opacity: 0;
+    position: relative;
+    stroke: ${({ theme }) => theme.colors[theme.userColorChoice]};
+    stroke-width: 12px;
+    stroke-dasharray: 1005;
+    stroke-dashoffset: 0;
+    stroke-linecap: round;
+    transform: rotate(270deg);
+
+    &.countdownAnimation .circle {
+    ${({ animationTime }) => {
+    return css`
+        animation: ${stroke} ${animationTime} linear backwards;
+        `
+  }}
+    }
+
+    &.isAnimating .circle {
+      animation-play-state: running;
+    }
+
+    &.isPaused .circle {
+      animation-play-state: paused;
+    }
+
+    & .circle {
+      z-index: 2;
+    }
+
+    & .circle--behind {
+      stroke-opacity: .05;
+      z-index: 1;
+    }
+  }
 `
 
 export const TimerRemaining = styled.h1`
@@ -58,6 +115,7 @@ export const TimerControl = styled.h3`
   cursor: pointer;
 
   &:hover {
-    color: ${({ theme }) => theme.colors[theme.colorChoice]};
+    color: ${({ theme }) => theme.colors[theme.userColorChoice]};
   }
 `
+

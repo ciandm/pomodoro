@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 import GlobalStyle from './theme/GlobalStyle';
 import { ThemeProvider } from 'styled-components';
 import colors, { colorChoices } from './theme/colors';
@@ -20,8 +20,12 @@ function App() {
     color: 'froly'
   }
   const [settingsShown, setSettingsShown] = useState(false);
-  const [selectedTimer, setSelectedTimer] = useState('pomodoro');
-  const [timerActive, setTimerActive] = useState(false);
+  const [selectedTimer, setSelectedTimer] = useState(localStorage.getItem('selectedTimer') || 'pomodoro');
+  const [timerStatus, setTimerStatus] = useState({
+    timer: '',
+    progress: 'start',
+    isClicked: false
+  });
 
   function reducer(state, action) {
     if (action.type === 'increment') {
@@ -116,7 +120,6 @@ function App() {
   }
 
   function handleFontAndColorSelection(type, label) {
-    console.log(label);
     if (type === 'font') {
       dispatch({
         type: 'font',
@@ -151,13 +154,54 @@ function App() {
     })
   }
 
+  useEffect(() => {
+    setTimerStatus({
+      timer: selectedTimer,
+      progress: 'start',
+      isClicked: false
+    })
+  }, [selectedTimer])
+
   function handleTimerSelect(timer) {
     setSelectedTimer(timer);
-    setTimerActive(false);
+    localStorage.setItem('selectedTimer', timer);
+    setTimerStatus({
+      timer,
+      progress: 'start',
+      isClicked: false
+    });
   }
 
-  function handleTimerActivation() {
-    setTimerActive(prevState => !prevState);
+  function handleTimerFinish() {
+    setTimerStatus(prevStatus => ({
+      ...prevStatus,
+      progress: 'finished'
+    }))
+  }
+
+  function handleTimerActivation(timer) {
+    let progress;
+    switch (timerStatus.progress) {
+      case 'start':
+        progress = 'playing'
+        break;
+      case 'playing':
+        progress = 'paused'
+        break;
+      case 'paused':
+        progress = 'playing'
+        break;
+      case 'finished':
+        progress = 'playing'
+        break;
+      default:
+        throw new Error()
+    }
+    setTimerStatus({
+      timer,
+      progress,
+      isClicked: true
+    });
   }
 
   return (
@@ -177,8 +221,9 @@ function App() {
         <Timer
           settings={settings}
           selectedTimer={selectedTimer}
-          timerActive={timerActive}
+          timerStatus={timerStatus}
           handleTimerActivation={handleTimerActivation}
+          handleTimerFinish={handleTimerFinish}
         />
         <SettingsButton
           handleSettingsShown={handleSettingsShown}
