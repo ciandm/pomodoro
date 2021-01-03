@@ -8,7 +8,6 @@ function Input({
   id,
   label,
   value,
-  handleInputChange,
   handleInputIncrementAndDecrement,
 }) {
   return (

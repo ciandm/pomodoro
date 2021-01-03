@@ -5,12 +5,6 @@ import {
   H3
 } from '../../theme/typography';
 
-const stroke = keyframes`
-  to {
-    stroke-dashoffset: 1005
-  }
-`
-
 const strokeFlash = keyframes`
   0% {
     stroke-opacity: .05
