@@ -14,9 +14,9 @@ function App() {
 
   const retrievedSettings = JSON.parse(localStorage.getItem('usersSettings'));
   const initialState = {
-    pomodoro: 15,
-    shortBreak: 1,
-    longBreak: 1,
+    pomodoro: 25,
+    shortBreak: 5,
+    longBreak: 15,
     font: 'Kumbh Sans',
     color: 'froly'
   }
