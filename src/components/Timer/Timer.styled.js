@@ -125,6 +125,7 @@ export const TimerRemaining = styled.h1`
 export const TimerControl = styled.h3`
   ${H3};
   cursor: pointer;
+  margin-top: 12px;
 
   &:hover {
     color: ${({ theme }) => theme.colors[theme.userColorChoice]};

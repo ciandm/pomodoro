@@ -8,7 +8,7 @@ export const H1 = css`
   letter-spacing: -5px;
 
   @media screen and (max-width: ${breakpoints.sm}) {
-    font-size: 80px;
+    font-size: 72px;
     line-height: 1;
   }
 `

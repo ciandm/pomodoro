@@ -19,7 +19,7 @@ export const InputGroup = styled.div`
     
     & + & {
       margin-left: 0;
-      margin-top: 8px;
+      margin-top: 20px;
     }
   }
 `
