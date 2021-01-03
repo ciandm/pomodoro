@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import breakpoints from '../../theme/breakpoints';
 import {
   BodyPrimary,
   BodySecondary
@@ -10,6 +11,16 @@ export const InputGroup = styled.div`
 
   & + & {
     margin-left: 20px;
+  }
+
+  @media screen and (max-width: ${breakpoints.sm}) {
+    align-items: center;
+    flex-direction: row;
+    
+    & + & {
+      margin-left: 0;
+      margin-top: 8px;
+    }
   }
 `
 
@@ -25,6 +36,13 @@ export const InputContainer = styled.div`
   border-radius: 10px;
   display: flex;
   overflow: hidden;
+
+  @media screen and (max-width: ${breakpoints.sm}) {
+    height: 100%;
+    max-width: 140px;
+    margin-left: auto;
+    width: 100%;
+  }
 `
 
 export const Input = styled.input`
@@ -35,6 +53,10 @@ export const Input = styled.input`
   outline: none;
   padding: 16px;
   width: 100%;
+
+  @media screen and (max-width: ${breakpoints.sm}) {
+    /* padding: 48px 16px; */
+  }
 `
 
 export const ButtonGroup = styled.div`

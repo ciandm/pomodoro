@@ -3,6 +3,7 @@ import {
   H2
 } from '../../theme/typography';
 import iconClose from '../../assets/images/icon-close.svg';
+import breakpoints from '../../theme/breakpoints';
 
 
 export const SettingsContainer = styled.div`
@@ -17,6 +18,10 @@ export const SettingsContainer = styled.div`
   right: 0;
   top: 0;
   z-index: 500;
+
+  @media screen and (max-width: ${breakpoints.sm}) {
+    padding: 48px 16px;
+  }
 `
 
 export const SettingsModal = styled.div`
@@ -35,6 +40,10 @@ export const SettingsHeader = styled.header`
   display: flex;
   justify-content: space-between;
   padding: 24px 36px;
+
+  @media screen and (max-width: ${breakpoints.sm}) {
+    padding: 24px;
+  }
 `
 
 export const SettingsTitle = styled.h2`
@@ -71,6 +80,10 @@ export const SettingsRows = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 36px 24px 36px;
+
+  @media screen and (max-width: ${breakpoints.sm}) {
+    padding: 0 24px 24px;
+  }
 `
 
 export const SettingsRow = styled.div`
@@ -87,12 +100,31 @@ export const SettingsRow = styled.div`
   &:last-child {
     padding-bottom: 36px;
   }
+
+  @media screen and (max-width: ${breakpoints.sm}) {
+    align-items: center;
+    flex-direction: column;
+
+  }
 `
 
 export const SettingsGroup = styled.div`
   display: flex;
   z-index: 50;
   max-width: 100%;
+
+  @media screen and (max-width: ${breakpoints.sm}) {
+    justify-content: center;
+    width: 100%;
+
+    ${SettingsRow}:first-child & {
+      flex-direction: column;
+    }
+
+    ${SettingsRow}:not(:first-child) & {
+      margin-top: 20px;
+    }
+  }
 `
 
 export const ApplyButton = styled.button`

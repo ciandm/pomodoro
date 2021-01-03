@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import breakpoints from './breakpoints';
 
 export const GlobalStyle = createGlobalStyle`
   *,
@@ -15,6 +16,10 @@ export const GlobalStyle = createGlobalStyle`
     font-family: ${({ theme }) => theme.userFontChoice};
     min-height: 100vh;
     padding: 48px;
+
+    @media screen and (max-width: ${breakpoints.sm}) {
+      padding: 24px 16px;
+    }
   }
 `
 

@@ -1,4 +1,5 @@
 import styled, { keyframes, css } from 'styled-components';
+import breakpoints from '../../theme/breakpoints';
 import {
   H1,
   H3
@@ -45,6 +46,16 @@ export const TimerContainer = styled.div`
     height: 366px;
     width: 366px;
   }
+
+  @media screen and (max-width: ${breakpoints.sm}) {
+    height: 300px;
+    width: 300px;
+
+    &::before {
+      height: 268px;
+      width: 268px;
+    }
+  }
 `
 
 export const TimerScreen = styled.div`
@@ -57,6 +68,11 @@ export const TimerScreen = styled.div`
   width: 340px;
   position: relative;
   z-index: 5;
+
+  @media screen and (max-width: ${breakpoints.sm}) {
+    height: 248px;
+    width: 248px;
+  }
 `
 
 export const TimerProgress = styled.div`
@@ -110,7 +126,6 @@ export const TimerProgress = styled.div`
 
 export const TimerRemaining = styled.h1`
   ${H1};
-  margin-bottom: 20px;
 `
 
 export const TimerControl = styled.h3`

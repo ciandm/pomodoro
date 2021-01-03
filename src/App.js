@@ -27,6 +27,7 @@ function App() {
     progress: 'start',
     isClicked: false
   });
+  // circle sections that make up the timer ring
   const [circleSections, setCircleSections] = useState([]);
   const [savedCircleSections, setSavedCircleSections] = useState([]);
 
@@ -39,6 +40,7 @@ function App() {
     minutes: 0,
     seconds: 0,
   })
+  // delay for useInterval hook
   const [delay, setDelay] = useState('');
 
   function reducer(state, action) {

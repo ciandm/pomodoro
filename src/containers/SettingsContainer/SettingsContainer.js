@@ -51,7 +51,7 @@ function SettingsContainer({
                       title="Time (minutes)"
                       marginBottom="20px"
                     />
-                    <Styled.SettingsGroup>
+                    <Styled.SettingsGroup >
                       <Input
                         id="pomodoro"
                         type="number"
